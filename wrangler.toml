@@ -1,0 +1,16 @@
+name = "quantizelab-mcp"
+main = "src/index.ts"
+compatibility_date = "2024-09-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+SITE_URL = "https://your-worker.example.workers.dev"
+
+# Required secrets (set with `wrangler secret put <NAME>`):
+#   SUPABASE_URL                - your Supabase project URL
+#   SUPABASE_SERVICE_ROLE_KEY   - service role key (server-side only!)
+#   HF_TOKEN_ENC_KEY            - AES-GCM key derivation secret for HF tokens
+#   IP_HASH_PEPPER              - HMAC pepper for the anti-farming IP guard
+# Optional secrets:
+#   MODAL_ENDPOINT_URL          - Modal dispatch endpoint (defaults to QuantizeLab's)
+#   SITE_URL                    - public origin used for worker callbacks
