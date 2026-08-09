@@ -63,6 +63,28 @@ Point it at `https://quantizelab.dev/api/public/mcp` (Streamable HTTP / JSON-RPC
 with the `Authorization: Bearer ql_...` header. A plain `GET` returns server metadata,
 so most clients discover the tools automatically.
 
+### Direct from the terminal (no AI)
+
+MCP is plain JSON-RPC over HTTP — drive it with curl or any script. Initialize once per
+session, then call tools:
+
+```bash
+curl -X POST https://quantizelab.dev/api/public/mcp \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -H "Authorization: Bearer ql_YOUR_API_KEY" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"terminal","version":"1.0"}}}'
+
+# then call a tool, e.g. balance
+curl -X POST https://quantizelab.dev/api/public/mcp \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -H "Authorization: Bearer ql_YOUR_API_KEY" \
+  -d '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"get_credits","arguments":{}}}'
+```
+
+If a call returns "not initialized", send `{"jsonrpc":"2.0","method":"notifications/initialized"}` first.
+
 ## Tools
 
 | Tool | Description | Key args |
