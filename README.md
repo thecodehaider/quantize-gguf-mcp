@@ -9,7 +9,7 @@ Cursor, or any MCP client. There is no self-hosted edition: the service runs on 
 side only.
 
 - Live endpoint: `https://quantizelab.dev/api/public/mcp`
-- Models: up to **33B parameters**, GGUF (Q4_K_M) only
+- Models: up to **33B parameters**, GGUF, four quantization levels (Q4_K_M default, Q5_K_M, Q6_K, Q8_0)
 - Pricing: previewed in credits before anything runs; failed jobs refund automatically
 - Confirmation is mandatory — the AI can suggest, you decide
 
@@ -90,9 +90,9 @@ If a call returns "not initialized", send `{"jsonrpc":"2.0","method":"notificati
 | Tool | Description | Key args |
 | --- | --- | --- |
 | `get_credits` | Current credit balance | — |
-| `get_pricing` | Tier table and credit packs | — |
-| `browse_model` | Price an HF repo URL without starting anything | `hf_model_url` |
-| `quantize_model` | Quantize + publish — **requires `confirm: true`** | `hf_model_url`, `target_format`, `confirm` |
+| `get_pricing` | Tier table, quantization levels, credit packs | — |
+| `browse_model` | Price an HF repo URL without starting anything | `hf_model_url`, `quant_type` |
+| `quantize_model` | Quantize + publish — **requires `confirm: true`** | `hf_model_url`, `target_format`, `quant_type`, `confirm` |
 | `get_job_status` | Poll a submitted job | `job_id` |
 
 ## Pricing (1 credit = $0.10)
@@ -105,6 +105,8 @@ If a call returns "not initialized", send `{"jsonrpc":"2.0","method":"notificati
 | 15B | <=15B | 15 | $1.50 |
 | 33B | <=33B | 22 | $2.20 |
 
+- Tier prices are for the default **Q4_K_M** level. **Q5_K_M** and **Q6_K** cost the same;
+  **Q8_0** (highest fidelity, ~70% larger output) adds **5 credits**.
 - Models **larger than 33B** are rejected before anything is charged.
 - Top-up packs: Starter $5 = 50 cr / Standard $10 = 100 cr / Pro $25 = 250 cr / Studio $50 = 500 cr.
 - Credits are deducted only when a job actually starts and are refunded automatically if dispatch fails.
